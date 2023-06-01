@@ -4,15 +4,18 @@ import os
 pygame.init()
 
 MENU = pygame.display.set_mode((1280, 720))
-pygame.display.set_caption("Racing game")
 
+pygame.display.set_caption("Racing game")
+run = True
 
 def set_difficulty(value, difficulty):
     # Do the job here !
     pass
 
 def start_the_game():
-    # Do the job here !
+    while run:
+        GAME = pygame.display.set_mode((1280, 720))
+        print("game is running!")
     pass
 
 
