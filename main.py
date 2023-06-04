@@ -1,16 +1,14 @@
 import pygame
 import pygame_menu
 import os
+import random
 pygame.init()
 
 MENU = pygame.display.set_mode((1280, 720))
-
 pygame.display.set_caption("Racing game")
 run = True
-car = pygame.image.load("Assets\\car.png").convert()
-car = pygame.transform.scale(car, (64, 128))
-box = pygame.image.load("Assets\\box.png").convert()
-box = pygame.transform.scale(box, (64, 64))
+
+
 
 frameRate = pygame.time.Clock()
 
@@ -23,8 +21,14 @@ def genFrame(GAME):
     pygame.draw.rect(GAME, (255, 255, 255), pygame.Rect(645, 0, 10, 720))
     
 def start_the_game():
+    car = pygame.image.load("Assets\\car.png").convert()
+    car = pygame.transform.scale(car, (64, 128))
+    box = pygame.image.load("Assets\\box.png").convert()
+    box = pygame.transform.scale(box, (64, 64))
     X = 608
     Y = -100
+    box_x = 608
+    box_y = -100
     movement = 0
     run=True
     
@@ -34,20 +38,29 @@ def start_the_game():
     
     while run:
         GAME.fill("Black")
-        print("game is running!")
+        print("_____")
         genFrame(GAME)
         line1 = pygame.draw.rect(GAME, (255, 255, 255), pygame.Rect(430, Y, 10, 64))
         line2 = pygame.draw.rect(GAME, (255, 255, 255), pygame.Rect(835, Y, 10, 64))
         pygame.draw.rect(GAME, (255, 255, 255), line1)
         pygame.draw.rect(GAME, (255, 255, 255), line2)
         GAME.blit(car, (X, 570))
-        GAME.blit(box, (100, 100))
+        GAME.blit(box, (box_x, box_y))
         X+=1*movement
         Y+=1
+        box_y+=1
+        
         if Y == 720:
             Y = -100
+        if box_y > 720:
+            box_y = random.uniform(-1000, -100)
+            box_x = random.uniform(350, 700)
         pygame.display.update()
-
+        if ((box_y > 570 and box_y < 700) and ((X < box_x) and ((X + 64) > box_x))):
+            car = pygame.transform.rotate(car, 45)
+            run = False
+            print("hit")
+            
         for event in pygame.event.get():
             
             
@@ -80,7 +93,7 @@ def start_the_game():
 
     pass
 
-def open_menu():
+def open_menu(MENU):
     run = False
     menu = pygame_menu.Menu('Welcome', 1280, 720,
                     theme=pygame_menu.themes.THEME_SOLARIZED)
@@ -97,4 +110,4 @@ def open_menu():
 
     menu.mainloop(MENU)
 
-open_menu()
+open_menu(MENU)
