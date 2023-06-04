@@ -2,6 +2,8 @@ import pygame
 import pygame_menu
 import os
 import random
+import time
+
 pygame.init()
 
 MENU = pygame.display.set_mode((1280, 720))
@@ -21,6 +23,7 @@ def genFrame(GAME):
     pygame.draw.rect(GAME, (255, 255, 255), pygame.Rect(645, 0, 10, 720))
     
 def start_the_game():
+    
     car = pygame.image.load("Assets\\car.png").convert()
     car = pygame.transform.scale(car, (64, 128))
     box = pygame.image.load("Assets\\box.png").convert()
@@ -35,17 +38,23 @@ def start_the_game():
     GAME = pygame.display.set_mode((1280, 720))
     line1 = pygame.draw.rect(GAME, (255, 255, 255), pygame.Rect(430, -100, 10, 64))
     line2 = pygame.draw.rect(GAME, (255, 255, 255), pygame.Rect(835, -100, 10, 64))
-    
+    score = 0
+   
     while run:
+        font = pygame.font.Font('freesansbold.ttf', 32)
+        dashboard = "Score " + str(score)
+        text = font.render(dashboard, True, (0, 128, 0), (0, 0, 0))
+        textRect = text.get_rect()
         GAME.fill("Black")
-        print("_____")
         genFrame(GAME)
         line1 = pygame.draw.rect(GAME, (255, 255, 255), pygame.Rect(430, Y, 10, 64))
         line2 = pygame.draw.rect(GAME, (255, 255, 255), pygame.Rect(835, Y, 10, 64))
         pygame.draw.rect(GAME, (255, 255, 255), line1)
         pygame.draw.rect(GAME, (255, 255, 255), line2)
+        
         GAME.blit(car, (X, 570))
         GAME.blit(box, (box_x, box_y))
+        GAME.blit(text, textRect)
         X+=1*movement
         Y+=1
         box_y+=1
@@ -55,11 +64,20 @@ def start_the_game():
         if box_y > 720:
             box_y = random.uniform(-1000, -100)
             box_x = random.uniform(350, 700)
+            score += 1
+            font = pygame.font.Font('freesansbold.ttf', 32)
+            dashboard = "Score " + str(score)
+            text = font.render(dashboard, True, (0, 128, 0), (0, 0, 0))
+            textRect = text.get_rect()
+            GAME.blit(text, textRect)
+            print("score ", score)
+            
         pygame.display.update()
-        if ((box_y > 570 and box_y < 700) and ((X < box_x) and ((X + 64) > box_x))):
+        if ((box_y > 506 and box_y < 700) and ((X-64 < box_x) and ((X + 64) > box_x))):
             car = pygame.transform.rotate(car, 45)
+            genFrame(GAME)
+            time.sleep(1)
             run = False
-            print("hit")
             
         for event in pygame.event.get():
             
