@@ -9,6 +9,8 @@ pygame.display.set_caption("Racing game")
 run = True
 car = pygame.image.load("Assets\\car.png").convert()
 car = pygame.transform.scale(car, (64, 128))
+box = pygame.image.load("Assets\\box.png").convert()
+box = pygame.transform.scale(box, (64, 64))
 
 frameRate = pygame.time.Clock()
 
@@ -23,15 +25,12 @@ def genFrame(GAME):
 def start_the_game():
     X = 608
     Y = -100
-
     movement = 0
     run=True
     
     GAME = pygame.display.set_mode((1280, 720))
     line1 = pygame.draw.rect(GAME, (255, 255, 255), pygame.Rect(430, -100, 10, 64))
     line2 = pygame.draw.rect(GAME, (255, 255, 255), pygame.Rect(835, -100, 10, 64))
-    line3 = pygame.draw.rect(GAME, (255, 255, 255), pygame.Rect(430, -475, 10, 64))
-    line4 = pygame.draw.rect(GAME, (255, 255, 255), pygame.Rect(835, -475, 10, 64))
     
     while run:
         GAME.fill("Black")
@@ -42,6 +41,7 @@ def start_the_game():
         pygame.draw.rect(GAME, (255, 255, 255), line1)
         pygame.draw.rect(GAME, (255, 255, 255), line2)
         GAME.blit(car, (X, 570))
+        GAME.blit(box, (100, 100))
         X+=1*movement
         Y+=1
         if Y == 720:
