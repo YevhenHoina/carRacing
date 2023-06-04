@@ -27,13 +27,20 @@ def genFrame(GAME, game_over):
         pygame.draw.rect(GAME, (20, 110, 20), pygame.Rect(1040, 0, 240, 720))
         pygame.draw.rect(GAME, (255, 255, 255), pygame.Rect(625, 0, 10, 720))
         pygame.draw.rect(GAME, (255, 255, 255), pygame.Rect(645, 0, 10, 720))
-def pause_menu(GAME, game_over):
-    caption = 'Pause'
-    if game_over:
-        caption = 'Game over'
 
+def pause_menu(GAME, game_over, score):
+    caption = 'Pause'
     menu=pygame_menu.Menu(caption, 690, 360,
     theme=pygame_menu.themes.THEME_SOLARIZED)
+    if game_over:
+        caption = 'Game over'
+        dashboard = "Score " + str(score)
+        menu.add.label(dashboard,
+                    align=pygame_menu.locals.ALIGN_CENTER,
+                    font_name = "arialblack",
+                    font_color="red")
+
+
     menu.add.button('Restart', start_the_game,
                     align=pygame_menu.locals.ALIGN_CENTER,
                     font_name = "arialblack")
@@ -79,8 +86,7 @@ def start_the_game():
         leftColum = pygame.draw.rect(GAME, (168, 99, 71), pygame.Rect(0, building_y, 100, 700))
         rightColum = pygame.draw.rect(GAME, (168, 99, 71), pygame.Rect(1100, building_y + building_gap, 300, 600))
         pygame.draw.rect(GAME, (255, 255, 255), line1)
-        pygame.draw.rect(GAME, (255, 255, 255), line2)
-        
+        pygame.draw.rect(GAME, (255, 255, 255), line2) 
         pygame.draw.rect(GAME, (left_color, 99, 71), leftColum)
         pygame.draw.rect(GAME, (right_color, 99, 71), rightColum)
 
@@ -113,35 +119,26 @@ def start_the_game():
         if ((box_y > 506 and box_y < 700) and ((X-64 < box_x) and ((X + 64) > box_x))):
             car = pygame.transform.rotate(car, 45)
             game_over = True
-
             genFrame(GAME, game_over)
-            
             time.sleep(1)
             time.sleep(1)
-            pause_menu(GAME, game_over)
+            pause_menu(GAME, game_over, score)
             # run = False
             
         for event in pygame.event.get():
             
             if(event.type == pygame.KEYDOWN):
                 if(event.key == pygame.K_SPACE):
-                    pause_menu(GAME, game_over)
+                    pause_menu(GAME, game_over, score)
                 if (event.key == pygame.K_RIGHT):
                     movement = 0.5
                 if (event.key == pygame.K_LEFT):
                     movement = -0.5
             if(event.type == pygame.KEYUP):
                 if (event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT):
-                    movement = 0
-                    
-                    
-            
-            
+                    movement = 0           
             pygame.display.flip()
             frameRate.tick(128)
-
-                             
-
     pass
 
 def open_menu(MENU):
@@ -158,7 +155,6 @@ def open_menu(MENU):
     menu.add.button('Quit', pygame_menu.events.EXIT,
                     font_name = "arialblack",
                     font_color="red")
-
     menu.mainloop(MENU)
 
 open_menu(MENU)
