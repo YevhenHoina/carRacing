@@ -68,16 +68,9 @@ def start_the_game():
                     movement = -0.5
             if(event.type == pygame.KEYUP):
                 if (event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT):
-                    movement = 0
-                    
-                    
-            
-            
+                    movement = 0    
             pygame.display.flip()
             frameRate.tick(128)
-
-                             
-
     pass
 
 def open_menu():
