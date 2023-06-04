@@ -18,7 +18,10 @@ def set_difficulty(value, difficulty):
     # Do the job here !
     pass
 def genFrame(GAME):
+
     pygame.draw.rect(GAME, (54, 54, 54), pygame.Rect(240, 0, 800, 720))
+    pygame.draw.rect(GAME, (20, 110, 20), pygame.Rect(0, 0, 240, 720))
+    pygame.draw.rect(GAME, (20, 110, 20), pygame.Rect(1040, 0, 240, 720))
     pygame.draw.rect(GAME, (255, 255, 255), pygame.Rect(625, 0, 10, 720))
     pygame.draw.rect(GAME, (255, 255, 255), pygame.Rect(645, 0, 10, 720))
     
@@ -32,14 +35,20 @@ def start_the_game():
     Y = -100
     box_x = 608
     box_y = -100
+    building_y = 0
+    building_gap = random.uniform(100, 200)
     movement = 0
     run=True
     
     GAME = pygame.display.set_mode((1280, 720))
     line1 = pygame.draw.rect(GAME, (255, 255, 255), pygame.Rect(430, -100, 10, 64))
     line2 = pygame.draw.rect(GAME, (255, 255, 255), pygame.Rect(835, -100, 10, 64))
+    leftColum = pygame.draw.rect(GAME, (168, 99, 71), pygame.Rect(0, building_y, 10, 64))
+    rightColum = pygame.draw.rect(GAME, (168, 99, 71), pygame.Rect(1000, building_y + building_gap, 10, 64))
     score = 0
-   
+    left_color = random.uniform(100, 200)
+    right_color = random.uniform(100, 200)
+
     while run:
         font = pygame.font.Font('freesansbold.ttf', 32)
         dashboard = "Score " + str(score)
@@ -49,8 +58,13 @@ def start_the_game():
         genFrame(GAME)
         line1 = pygame.draw.rect(GAME, (255, 255, 255), pygame.Rect(430, Y, 10, 64))
         line2 = pygame.draw.rect(GAME, (255, 255, 255), pygame.Rect(835, Y, 10, 64))
+        leftColum = pygame.draw.rect(GAME, (168, 99, 71), pygame.Rect(0, building_y, 100, 700))
+        rightColum = pygame.draw.rect(GAME, (168, 99, 71), pygame.Rect(1100, building_y + building_gap, 300, 600))
         pygame.draw.rect(GAME, (255, 255, 255), line1)
         pygame.draw.rect(GAME, (255, 255, 255), line2)
+        
+        pygame.draw.rect(GAME, (left_color, 99, 71), leftColum)
+        pygame.draw.rect(GAME, (right_color, 99, 71), rightColum)
         
         GAME.blit(car, (X, 570))
         GAME.blit(box, (box_x, box_y))
@@ -58,6 +72,7 @@ def start_the_game():
         X+=1*movement
         Y+=1
         box_y+=1
+        building_y+=1
         
         if Y == 720:
             Y = -100
@@ -71,7 +86,11 @@ def start_the_game():
             textRect = text.get_rect()
             GAME.blit(text, textRect)
             print("score ", score)
-            
+        if building_y > 820:
+            building_y = -1000
+            building_gap = random.uniform(-200, 200)
+            left_color = random.uniform(100, 200)
+            right_color = random.uniform(100, 200)    
         pygame.display.update()
         if ((box_y > 506 and box_y < 700) and ((X-64 < box_x) and ((X + 64) > box_x))):
             car = pygame.transform.rotate(car, 45)
