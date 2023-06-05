@@ -7,8 +7,7 @@ import time
 pygame.init()
 
 print("test")
-MENU = pygame.display.set_mode((1280, 720))
-pygame.display.set_caption("Racing game")
+
 run = True
 difficulty = 1
 
@@ -143,7 +142,9 @@ def start_the_game():
             frameRate.tick(128)
     pass
 
-def open_menu(MENU):
+def open_menu():
+    MENU = pygame.display.set_mode((1280, 720))
+    pygame.display.set_caption("Racing game")
     run = False
     menu = pygame_menu.Menu('Welcome', 1280, 720,
                     theme=pygame_menu.themes.THEME_SOLARIZED)
@@ -159,4 +160,4 @@ def open_menu(MENU):
                     font_color="red")
     menu.mainloop(MENU)
 
-open_menu(MENU)
+open_menu()
